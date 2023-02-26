@@ -23,10 +23,10 @@ router.get('/', async (req, res) => {
 
 router.get('/:id', async (req, res) => {
   try {
-    const catData = await Product.findByPk(req.params.id,
+    const prodData = await Product.findByPk(req.params.id,
       {include: [{ model: Category }, {model: Tag, through:ProductTag, as: 'product_tags' }]}
     );
-    res.status(200).json(catData);
+    res.status(200).json(prodData);
   } catch (err) {
     res.status(500).json(err);
   }
@@ -45,10 +45,13 @@ router.post('/', async (req, res) => {
             tag_id,
           };
         });
-        ProductTag.bulkCreate(productTagIdArr);
+       const bulkTags = await ProductTag.bulkCreate(productTagIdArr);
+       const prodData = await Product.findByPk(product.id,
+        {include: [{ model: Category }, {model: Tag, through:ProductTag, as: 'product_tags' }]}
+      );
+       res.status(200).json(prodData);
       }
-      res.status(200).json(product);
-      const prodIds = await ((productTagIdArr) => res.status(200).json(productTagIdArr));
+  
       }
     catch (err) {
       console.log(err);
@@ -83,7 +86,10 @@ router.put('/:id', async (req, res) => {
         // run both actions
         await ProductTag.destroy({ where: { id: productTagsToRemove } });
         await ProductTag.bulkCreate(newProductTags);
-        res.json(newProductTags);
+        const prodData = await Product.findByPk(req.params.id,
+          {include: [{ model: Category }, {model: Tag, through:ProductTag, as: 'product_tags' }]}
+        );
+        res.status(200).json(prodData);
       }
     catch(err) {
       console.log(err);
