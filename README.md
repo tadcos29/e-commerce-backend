@@ -43,4 +43,4 @@ Categories, products and tags have API routes set up in order to enable RESTful 
 
 This project uses dotenv for environmental variable control. If cloning, please modify and rename the supplied .env.GENERIC file.
 
-This project uses [Express.js](https://expressjs.com/) for connectivity and [Sequelize](https://sequelize.org/) as the Object Relational Mapping tool.
+This project uses [Express.js](https://expressjs.com/) for connectivity, [mysql2](https://www.npmjs.com/package/mysql2) for node.js access to the MySQL database, and [Sequelize](https://sequelize.org/) as the Object Relational Mapping tool.
